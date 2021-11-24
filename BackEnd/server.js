@@ -3,6 +3,7 @@ const app = express()
 const port = 4000
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 app.use(cors());
 app.use(function(req, res, next) {
@@ -19,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-const mongoose = require('mongoose');
+
 
 const strConnection = 'mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
@@ -74,6 +75,13 @@ app.put('/api/movies/:id',(req, res)=>{
             res.send(data);
         })
 
+})
+app.delete('/api/movies/:id', (req,res)=>{
+    console.log("Delete Movie: " + req.params.id);
+
+    movieModel.findByIdAndDelete(req.params.id,(err,data)=>{
+        res.send(data);
+    })
 })
 
 app.get('/api/movies', (req, res) => {
